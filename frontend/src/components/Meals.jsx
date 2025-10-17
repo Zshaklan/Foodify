@@ -9,11 +9,7 @@ export default function Meals() {
     data: mealsData,
     isLoading,
     error,
-  } = useHttp(
-    "https://react-food-backend-b4dfb-default-rtdb.asia-southeast1.firebasedatabase.app/meals.json",
-    requestConfig,
-    []
-  );
+  } = useHttp("http://localhost:5000/api/meals", requestConfig, [], "meals");
 
   if (isLoading) {
     return <p className="center">Fetching Meals...</p>;

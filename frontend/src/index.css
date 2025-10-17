@@ -5,13 +5,17 @@
 }
 
 body {
-  margin: 0;
   font-family: "Raleway", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(#29251c, #2c2306);
   color: #d9e2f1;
   min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: #ffffff;
 }
 
 #main-header {
@@ -287,7 +291,7 @@ h1 {
 
 /* Fixed header */
 #main-header {
-  position: fixed; /* Fix to top */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -315,10 +319,9 @@ body {
   padding: 0.4rem 1rem;
 }
 
-/* Small devices (phones) */
 @media (max-width: 600px) {
   #main-header {
-    flex-direction: row; /* Keep logo & cart in same line */
+    flex-direction: row;
     justify-content: space-between;
     padding: 1rem 5%;
   }
@@ -328,29 +331,43 @@ body {
     align-items: center;
   }
 
+  #main-header #title h1 {
+    font-size: 1rem;
+  }
+
   #main-header #title img {
     width: 3rem;
     height: 3rem;
   }
 
+  #main-header nav {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  #main-header button {
+    font-size: 1rem;
+    padding: 0.4rem 1rem;
+  }
+
   #meals {
     width: 95%;
     padding: 0.5rem;
-    grid-template-columns: repeat(2, 1fr); /* 2 items per row */
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
   }
 
   .meal-item img {
     height: 12rem;
+    object-fit: cover;
   }
 
   .meal-item h3 {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   .meal-item-description {
-    font-size: 0.9rem;
-    margin: 0.5rem;
+    display: none;
   }
 
   .meal-item-price {
@@ -378,5 +395,25 @@ body {
 
   .modal-actions .text-button {
     text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  #main-header {
+    flex-direction: row; /* already row by default, okay */
+    justify-content: space-between;
+  }
+
+  #main-header #title {
+    gap: 0.5rem;
+  }
+
+  #main-header #title h1 {
+    font-size: 1rem;
+  }
+
+  #main-header #title img {
+    width: 3rem;
+    height: 3rem;
   }
 }

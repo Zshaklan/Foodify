@@ -102,7 +102,6 @@ export default function Checkout() {
         <p>Total Amount: {currencyFormatter.format(cartTotal)}</p>
 
         <Input label="Full Name" type="text" id="name" name="name" />
-        <Input label="E-Mail Address" type="email" id="email" name="email" />
         <Input label="Street" type="text" id="street" name="street" />
         <div className="control-row">
           <Input

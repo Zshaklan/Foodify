@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 async function sendHttpRequest(url, config) {
-  const response = await fetch(url, config);
+  const response = await fetch(url, { ...config, credentials: "include" });
 
   const resData = await response.json();
 
@@ -14,7 +14,12 @@ async function sendHttpRequest(url, config) {
   return resData;
 }
 
-export default function useHttp(url, config, initialData = null) {
+export default function useHttp(
+  url,
+  config,
+  initialData = null,
+  dataKey = null
+) {
   const [data, setData] = useState(initialData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
@@ -24,17 +29,34 @@ export default function useHttp(url, config, initialData = null) {
   }
 
   const sendRequest = useCallback(
-    async function sendRequest(data) {
+    async function sendRequest(bodyData) {
       setIsLoading(true);
+      setError(null);
+
       try {
-        const resData = await sendHttpRequest(url, { ...config, body: data });
-        setData(resData);
-      } catch (error) {
-        setError(error.message || "Something went wrong!");
+        const finalConfig = {
+          ...config,
+          body:
+            bodyData && !(bodyData instanceof FormData)
+              ? JSON.stringify(bodyData)
+              : bodyData,
+          headers: {
+            "Content-Type":
+              bodyData instanceof FormData ? undefined : "application/json",
+            ...config.headers,
+          },
+        };
+
+        const resData = await sendHttpRequest(url, finalConfig);
+        setData(dataKey ? resData[dataKey] : resData);
+        return resData;
+      } catch (err) {
+        setError(err.message || "Something went wrong!");
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     },
-    [url, config]
+    [url, config, dataKey]
   );
 
   useEffect(() => {
