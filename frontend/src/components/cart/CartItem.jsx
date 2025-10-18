@@ -1,4 +1,4 @@
-import { currencyFormatter } from "../utils/formatting.js";
+import { currencyFormatter } from "../../utils/formatting.js";
 
 export default function CartItem({ item, onIncrease, onDecrease }) {
   return (

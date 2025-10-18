@@ -1,10 +1,11 @@
 import Button from "./UI/Button";
 import appLogoImg from "../assets/logo.jpg";
+import userLogo from "../assets/user.svg";
 import { useContext } from "react";
 import { CartContext } from "../store/CartContext";
 import { UserProgressContext } from "../store/UserProgressContext";
 import useHttp from "../hooks/useHttp";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const cartCtx = useContext(CartContext);
@@ -37,17 +38,25 @@ export default function Header() {
 
   return (
     <header id="main-header">
-      <div id="title">
-        <img src={appLogoImg} alt="app-logo" />
-        <h1>Foodify</h1>
-      </div>
+      <Link to={"/"}>
+        <div id="title">
+          <img src={appLogoImg} alt="app-logo" />
+          <h1>Foodify</h1>
+        </div>
+      </Link>
 
       {currentUser && (
         <nav>
           <Button onClick={handleCartClick} textOnly>
             Cart ({totalCartItems})
-          </Button>{" "}
+          </Button>
           <Button onClick={handleLogout}>Logout</Button>
+
+          <Link to={"/profile"}>
+            <Button className="user">
+              <img src={userLogo} alt="userImg" />
+            </Button>
+          </Link>
         </nav>
       )}
     </header>

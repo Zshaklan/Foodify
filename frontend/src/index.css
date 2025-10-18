@@ -18,6 +18,10 @@ a {
   color: #ffffff;
 }
 
+.center {
+  text-align: center;
+}
+
 #main-header {
   display: flex;
   justify-content: space-between;
@@ -39,6 +43,24 @@ a {
   border: 2px solid #ffc404;
 }
 
+#main-header nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+#main-header .user {
+  padding: 0;
+}
+
+#main-header .user img {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 2px solid #ffc404;
+}
+
 #main-header button {
   font-size: 1.5rem;
   font-family: "Lato", sans-serif;
@@ -52,6 +74,29 @@ h1 {
   color: #ffc404;
   letter-spacing: 0.2rem;
   text-transform: uppercase;
+}
+
+.search-bar {
+  width: 100%;
+  max-width: 500px;
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 0.8rem 1.2rem;
+  border-radius: 2rem;
+  border: 2px solid #ffc404;
+  outline: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+  border-color: #ffc404;
+  box-shadow: 0 0 10px rgba(255, 76, 96, 0.2);
 }
 
 #meals {
@@ -109,6 +154,15 @@ h1 {
 
 .meal-item-actions {
   margin-bottom: 1.5rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 3rem 0;
+  flex-wrap: wrap;
 }
 
 .cart h2 {

@@ -4,14 +4,13 @@ import UserProgressContextProvider, {
 } from "./store/UserProgressContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Register from "./components/auth/Register";
-import Cart from "./components/Cart";
-import Checkout from "./components/Checkout";
 import Meals from "./components/Meals";
 import ErrorBoundary from "./components/ErrorBoundary";
 import RootLayout from "./components/RootLayout";
 import CartContextProvider from "./store/CartContext";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MealDesctiption from "./components/MealDesctiption";
+import Profile from "./components/profile/Profile";
 
 function AppRoutes() {
   const { currentUser } = useContext(UserProgressContext);
@@ -24,14 +23,27 @@ function AppRoutes() {
       element: <RootLayout />,
       errorElement: <ErrorBoundary />,
       children: [
-        { index: true, element: <Meals /> },
-        { path: "/desc/:id", element: <MealDesctiption /> },
-        { path: "/cart", element: <Cart /> },
         {
-          path: "/checkout",
+          index: true,
           element: (
             <ProtectedRoute user={currentUser}>
-              <Checkout />
+              <Meals />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/desc/:id",
+          element: (
+            <ProtectedRoute user={currentUser}>
+              <MealDesctiption />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/profile",
+          element: (
+            <ProtectedRoute user={currentUser}>
+              <Profile />
             </ProtectedRoute>
           ),
         },

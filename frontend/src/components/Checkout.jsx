@@ -101,7 +101,13 @@ export default function Checkout() {
         <h2>Checkout</h2>
         <p>Total Amount: {currencyFormatter.format(cartTotal)}</p>
 
-        <Input label="Full Name" type="text" id="name" name="name" />
+        <Input
+          label="Full Name"
+          type="text"
+          id="name"
+          name="name"
+          defaultValue={userProgressCtx.currentUser?.fullName || ""}
+        />
         <Input label="Street" type="text" id="street" name="street" />
         <div className="control-row">
           <Input

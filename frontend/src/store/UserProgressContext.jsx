@@ -3,16 +3,21 @@ import { createContext, useEffect, useState } from "react";
 export const UserProgressContext = createContext({
   progress: "",
   currentUser: null,
+  isAuthReady: false,
   showCart: () => {},
   hideCart: () => {},
   showCheckout: () => {},
   hideCheckout: () => {},
+  showEditProfile: () => {},
+  hideEditProfile: () => {},
   setCurrentUser: () => {},
+  setIsAuthReady: () => {},
 });
 
 export default function UserProgressContextProvider({ children }) {
   const [progress, setProgress] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
+  const [isAuthReady, setIsAuthReady] = useState(false);
 
   useEffect(() => {
     async function fetchCurrentUser() {
@@ -21,7 +26,8 @@ export default function UserProgressContextProvider({ children }) {
           credentials: "include",
         });
         const data = await res.json();
-        if (data.user) setCurrentUser(data.user.email);
+        if (data.user) setCurrentUser(data.user);
+        setIsAuthReady(true);
       } catch (err) {
         setCurrentUser(null);
       }
@@ -34,15 +40,21 @@ export default function UserProgressContextProvider({ children }) {
   const hideCart = () => setProgress("");
   const showCheckout = () => setProgress("checkout");
   const hideCheckout = () => setProgress("");
+  const showEditProfile = () => setProgress("profile");
+  const hideEditProfile = () => setProgress("");
 
   const UserProgressCtx = {
     progress,
     currentUser,
+    isAuthReady,
     showCart,
     hideCart,
     showCheckout,
     hideCheckout,
+    showEditProfile,
+    hideEditProfile,
     setCurrentUser,
+    setIsAuthReady,
   };
 
   return (

@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../model/user.model.js";
+import { getImageKitInstance } from "../utils/imagekit.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -139,5 +140,49 @@ export const logoutUser = (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Failed to logged you out." });
+  }
+};
+
+export const editUserData = async (req, res) => {
+  try {
+    const { fullName, email, phone } = req.body;
+    console.log(fullName, email, phone);
+
+    let imageUrl;
+    if (req.file) {
+      const imagekit = getImageKitInstance();
+
+      const result = await imagekit.upload({
+        file: req.file.buffer.toString("base64"),
+        fileName: req.file.originalname,
+        folder: "/Foodify",
+      });
+
+      imageUrl = result.url;
+      console.log("Upload successful:", imageUrl);
+    }
+
+    const updateData = {
+      fullName,
+      email,
+      phone,
+    };
+
+    if (imageUrl) {
+      updateData.imageUrl = imageUrl;
+    }
+
+    const updatedUser = await userModel.findByIdAndUpdate(
+      req.user.id,
+      updateData,
+      { new: true, select: "-password" }
+    );
+
+    return res
+      .status(201)
+      .json({ message: "User updated successfully", user: updatedUser });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };

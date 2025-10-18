@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { UserProgressContext } from "../store/UserProgressContext.jsx";
-import Modal from "./UI/Modal";
-import Button from "./UI/Button.jsx";
-import { currencyFormatter } from "../utils/formatting.js";
-import { CartContext } from "../store/CartContext.jsx";
+import { UserProgressContext } from "../../store/UserProgressContext.jsx";
+import Modal from "../UI/Modal.jsx";
+import Button from "../UI/Button.jsx";
+import { currencyFormatter } from "../../utils/formatting.js";
+import { CartContext } from "../../store/CartContext.jsx";
 import CartItem from "./CartItem.jsx";
 
 export default function Cart() {
@@ -28,7 +28,7 @@ export default function Cart() {
       open={userProgressCtx.progress === "cart"}
       onClose={userProgressCtx.progress === "cart" ? handleCloseCart : null}
     >
-      <h2>Your Cart</h2>
+      <h1>Your Cart</h1>
 
       <ul>
         {cartCtx.cartItems.map((item) => (
