@@ -7,7 +7,7 @@ import {
   logoutUser,
   getCurrentUser,
   editUserData,
-} from "../controller/userController.js";
+} from "../controller/user.controller.js";
 
 const route = express.Router();
 
