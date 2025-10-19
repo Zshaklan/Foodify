@@ -1,10 +1,10 @@
 import "./Profile.css";
 import userLogo from "../../assets/user.svg";
 import { useContext } from "react";
-import { UserProgressContext } from "../../store/UserProgressContext";
-import Button from "../UI/Button";
-import Modal from "../UI/Modal";
-import EditProfile from "./EditProfile";
+import { UserProgressContext } from "../../store/UserProgressContext.jsx";
+import Button from "../UI/Button.jsx";
+import Modal from "../UI/Modal.jsx";
+import EditProfile from "./EditProfile.jsx";
 
 const Profile = () => {
   const { currentUser, progress, showEditProfile, hideEditProfile } =
