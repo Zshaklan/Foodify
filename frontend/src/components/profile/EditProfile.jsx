@@ -5,6 +5,7 @@ import "./Profile.css";
 import { useContext, useEffect, useRef, useState } from "react";
 import useHttp from "../../hooks/useHttp";
 import { UserProgressContext } from "../../store/UserProgressContext";
+import { BASE_API_URL } from "../../utils/formatting.js";
 
 const EditProfile = ({ onClose }) => {
   const [preview, setPreview] = useState(null);
@@ -13,7 +14,7 @@ const EditProfile = ({ onClose }) => {
   const fileRef = useRef();
   const formRef = useRef();
   const { sendRequest, data, isLoading, error } = useHttp(
-    "http://localhost:5000/api/auth/user/edit",
+    `${BASE_API_URL}/api/auth/user/edit`,
     { method: "POST" }
   );
 

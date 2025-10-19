@@ -7,6 +7,8 @@ const app = express();
 
 import userRoutes from "./routes/userAuth.routes.js";
 import mealRoutes from "./routes/meals.routes.js";
+import orderRoutes from "./routes/order.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
 
 app.use(express.json());
 app.use(cookieParser());
@@ -24,5 +26,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", userRoutes);
 app.use("/api/meals", mealRoutes);
+app.use("/api/order", orderRoutes);
+app.use("/api/admin", adminRoutes);
 
 export default app;

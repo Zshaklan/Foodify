@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import Modal from "./UI/Modal.jsx";
 import { CartContext } from "../store/CartContext.jsx";
-import { currencyFormatter } from "../utils/formatting.js";
+import { BASE_API_URL, currencyFormatter } from "../utils/formatting.js";
 import Input from "./UI/Input.jsx";
 import Button from "./UI/Button.jsx";
 import { UserProgressContext } from "../store/UserProgressContext.jsx";
@@ -26,10 +26,7 @@ export default function Checkout() {
     error,
     sendRequest,
     clearData,
-  } = useHttp(
-    "https://react-food-backend-b4dfb-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json",
-    requestConfig
-  );
+  } = useHttp(`http://localhost:5000/api/order`, requestConfig);
 
   const cartTotal = cartCtx.cartItems.reduce(
     (totalPrice, item) => totalPrice + item.quantity * item.price,
@@ -47,20 +44,20 @@ export default function Checkout() {
     cartCtx.clearCart();
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     const fd = new FormData(event.target);
     const customerData = Object.fromEntries(fd.entries());
 
-    sendRequest(
-      JSON.stringify({
-        order: {
-          items: cartCtx.cartItems,
-          customer: customerData,
-        },
-      })
-    );
+    console.log(customerData);
+
+    const order = {
+      items: cartCtx.cartItems,
+      customer: customerData,
+    };
+
+    await sendRequest(order);
   }
 
   let actions = (
@@ -114,7 +111,7 @@ export default function Checkout() {
             label="Postal Code"
             type="text"
             id="postal-code"
-            name="postal-code"
+            name="postalCode"
           />
           <Input label="City" type="text" id="city" name="city" />
         </div>

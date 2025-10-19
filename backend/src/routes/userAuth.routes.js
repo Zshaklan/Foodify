@@ -9,22 +9,22 @@ import {
   editUserData,
 } from "../controller/user.controller.js";
 
-const route = express.Router();
+const router = express.Router();
 
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
 });
 
-route.post("/user/register", registerUser);
-route.post("/user/login", loginUser);
-route.post("/user/logout", logoutUser);
-route.post(
+router.post("/user/register", registerUser);
+router.post("/user/login", loginUser);
+router.post("/user/logout", logoutUser);
+router.post(
   "/user/edit",
   authMiddleware,
   upload.single("imageFile"),
   editUserData
 );
-route.get("/user/me", getCurrentUser);
+router.get("/user/me", authMiddleware, getCurrentUser);
 
-export default route;
+export default router;

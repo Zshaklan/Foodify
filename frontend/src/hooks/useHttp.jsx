@@ -23,38 +23,6 @@ export default function useHttp(url, config, initialData = null) {
     setData(initialData);
   }
 
-  // const sendRequest = useCallback(
-  //   async function sendRequest(bodyData) {
-  //     setIsLoading(true);
-  //     setError(null);
-
-  //     try {
-  //       const finalConfig = {
-  //         ...config,
-  //         body:
-  //           bodyData && !(bodyData instanceof FormData)
-  //             ? JSON.stringify(bodyData)
-  //             : bodyData,
-  //         headers: {
-  //           "Content-Type":
-  //             bodyData instanceof FormData ? undefined : "application/json",
-  //           ...config.headers,
-  //         },
-  //       };
-
-  //       const resData = await sendHttpRequest(url, finalConfig);
-  //       console.log(resData);
-  //       setData(resData);
-  //       return resData;
-  //     } catch (err) {
-  //       setError(err.message || "Something went wrong!");
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   },
-  //   [url, config]
-  // );
-
   const sendRequest = useCallback(
     async function sendRequest(bodyData) {
       setIsLoading(true);
@@ -67,7 +35,7 @@ export default function useHttp(url, config, initialData = null) {
           ...config,
           body: isFormData || !bodyData ? bodyData : JSON.stringify(bodyData),
           headers: isFormData
-            ? { ...config.headers } // Don't set Content-Type for FormData
+            ? { ...config.headers }
             : {
                 "Content-Type": "application/json",
                 ...config.headers,

@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { BASE_API_URL } from "../utils/formatting.js";
 
 export const UserProgressContext = createContext({
   progress: "",
@@ -22,7 +23,7 @@ export default function UserProgressContextProvider({ children }) {
   useEffect(() => {
     async function fetchCurrentUser() {
       try {
-        const res = await fetch("http://localhost:5000/api/auth/user/me", {
+        const res = await fetch(`${BASE_API_URL}/api/auth/user/me`, {
           credentials: "include",
         });
         const data = await res.json();

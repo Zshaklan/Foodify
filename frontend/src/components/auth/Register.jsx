@@ -5,12 +5,13 @@ import { Link, useNavigate } from "react-router-dom";
 import useHttp from "../../hooks/useHttp";
 import { UserProgressContext } from "../../store/UserProgressContext";
 import Header from "../Header";
+import { BASE_API_URL } from "../../utils/formatting.js";
 
 const Register = () => {
   const [mode, setMode] = useState("Login");
   const { setCurrentUser } = useContext(UserProgressContext);
   const { sendRequest, isLoading, error, data } = useHttp(
-    `http://localhost:5000/api/auth/user/${mode}`,
+    `${BASE_API_URL}/api/auth/user/${mode}`,
     { method: "POST" }
   );
   const navigate = useNavigate();

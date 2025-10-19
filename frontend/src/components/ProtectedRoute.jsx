@@ -6,7 +6,7 @@ export default function ProtectedRoute({ children, user }) {
   const { isAuthReady } = useContext(UserProgressContext);
 
   if (!isAuthReady) {
-    return <p>Checking authentication...</p>;
+    return <p className="center">Checking authentication...</p>;
   }
 
   if (!user) {

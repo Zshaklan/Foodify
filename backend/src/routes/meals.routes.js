@@ -2,9 +2,11 @@ import express from "express";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import { getAllMeals, getMealById } from "../controller/meals.controller.js";
 
-const route = express.Router();
+const router = express.Router();
 
-route.get("/", authMiddleware, getAllMeals);
-route.get("/:id", authMiddleware, getMealById);
+router.use(authMiddleware);
 
-export default route;
+router.get("/", getAllMeals);
+router.get("/:id", getMealById);
+
+export default router;
