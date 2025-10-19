@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../model/user.model.js";
 import { getImageKitInstance } from "../utils/imagekit.js";
+import connectDB from "../config/db";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -192,8 +193,10 @@ export const editUserData = async (req, res) => {
 export default async function handler(req, res) {
   try {
     await connectDB();
-    res.status(200).json({ message: "Database connected successfully!" });
+    return res
+      .status(200)
+      .json({ message: "Database connected successfully!" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 }
