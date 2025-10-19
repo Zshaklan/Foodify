@@ -1,0 +1,122 @@
+.meal-description {
+  max-width: 1200px;
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  gap: 4rem;
+  margin: 5rem auto;
+  color: #ffffff;
+}
+
+/* -------- Left Image -------- */
+.meal-description .meal-image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.meal-description .meal-image img {
+  width: 100%;
+  max-width: 550px;
+  border-radius: 1.5rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.meal-description .meal-image img:hover {
+  transform: scale(1.02);
+}
+
+/* -------- Right Details -------- */
+.meal-description .meal-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.meal-description .meal-details h2 {
+  font-size: 2.2rem;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.meal-description .meal-price {
+  font-size: 1.5rem;
+  color: #ffab04;
+  font-weight: 600;
+}
+
+.meal-description .meal-description-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #ffffff;
+}
+
+.meal-description button {
+  width: fit-content;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+}
+
+/* -------- Responsive Design -------- */
+@media (max-width: 900px) {
+  .meal-description {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .meal-description .meal-image img {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .meal-description .meal-details {
+    align-items: center;
+  }
+
+  .meal-description .meal-details h2 {
+    font-size: 1.8rem;
+  }
+
+  .meal-description .meal-price {
+    font-size: 1.3rem;
+  }
+
+  .meal-description .meal-description-text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .meal-description {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1rem;
+    margin: 1rem auto;
+  }
+
+  .meal-description .meal-image img {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  .meal-description .meal-details {
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .meal-description .meal-details h2 {
+    font-size: 1.5rem;
+  }
+
+  .meal-description .meal-price {
+    font-size: 1rem;
+  }
+
+  .meal-description .meal-description-text {
+    font-size: 1rem;
+  }
+}

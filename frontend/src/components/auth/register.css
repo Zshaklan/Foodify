@@ -1,0 +1,45 @@
+.register {
+  background-color: #e4ddd4;
+  border-radius: 6px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  padding: 1.5rem;
+  margin: 5rem auto;
+  width: 80%;
+  max-width: 30rem;
+  color: #2c2306;
+}
+
+.register .control {
+  margin: 0.8rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.register .mode {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.register .mode p {
+  cursor: pointer;
+  color: #ffab04;
+}
+
+@media (max-width: 600px) {
+  .register {
+    width: 90%;
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+
+  .register .control {
+    margin: 0.5rem 0;
+  }
+
+  .register .mode {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
