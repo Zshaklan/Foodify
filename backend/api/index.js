@@ -1,4 +1,4 @@
-import app from "../app.js";
+import app from "../src/app.js";
 import connectDB from "../src/config/db.js";
 
 // Connect to database once
