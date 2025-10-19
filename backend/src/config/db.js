@@ -21,8 +21,8 @@ const connectDB = async () => {
         .then((mongoose) => mongoose);
     }
 
-    console.log(`MongoDB connected: ${conn.connection.host}`);
     cached.conn = await cached.promise;
+    console.log(`MongoDB connected: ${conn.connection.host}`);
     return cached.conn;
   } catch (error) {
     console.log("MongoDB connection error :", error.message);
