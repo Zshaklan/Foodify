@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../model/user.model.js";
 import { getImageKitInstance } from "../utils/imagekit.js";
-// import connectDB from "../config/db.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -76,9 +75,6 @@ export const registerUser = async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-
-    // Define isProduction properly
-    const isProduction = process.env.NODE_ENV === "production";
 
     return res
       .status(201)
