@@ -48,6 +48,7 @@ export default function useHttp(url, config, initialData = null) {
         }
 
         const resData = await sendHttpRequest(url, finalConfig);
+        console.log(resData);
         setData(resData);
         return resData;
       } catch (err) {

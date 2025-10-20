@@ -11,7 +11,7 @@ const Register = () => {
   const [mode, setMode] = useState("Login");
   const { setCurrentUser } = useContext(UserProgressContext);
   const { sendRequest, isLoading, error, data } = useHttp(
-    `${BASE_API_URL}/api/auth/user/${mode}`,
+    `${BASE_API_URL}/api/auth/user/${mode.toLowerCase()}`,
     { method: "POST" }
   );
   const navigate = useNavigate();
@@ -33,18 +33,17 @@ const Register = () => {
     };
 
     const resData = await sendRequest(body);
-    console.log(resData);
     setCurrentUser(resData.user);
     navigate("/");
   }
 
-  async function handleRegister() {
+  async function handleRegister(e) {
     e.preventDefault();
 
     const formData = new FormData(e.target);
 
     const body = {
-      fullname: formData.get("fullname"),
+      fullName: formData.get("fullname"),
       email: formData.get("email"),
       phone: formData.get("phone"),
       password: formData.get("password"),
@@ -52,8 +51,8 @@ const Register = () => {
 
     const resData = await sendRequest(body);
     console.log(resData);
-    setCurrentUser(resData.user.email);
-    // navigate("/");
+    setCurrentUser(resData.user);
+    navigate("/");
   }
 
   return (

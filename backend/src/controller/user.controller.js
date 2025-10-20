@@ -5,6 +5,7 @@ import { getImageKitInstance } from "../utils/imagekit.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 
+// GET current user
 export const getCurrentUser = async (req, res) => {
   try {
     const token = req.cookies.token;
@@ -31,33 +32,21 @@ export const registerUser = async (req, res) => {
   try {
     const { fullName, email, phone, password } = req.body;
 
-    console.log("Request body:", {
-      fullName,
-      email,
-      phone,
-      hasPassword: !!password,
-    });
+    console.log(fullName, email, phone, password);
 
-    // Validation
     if (!fullName || !email || !phone || !password) {
-      return res.status(400).json({ error: "All fields are required!" });
-    }
-
-    // Check MongoDB connection
-    if (!userModel.db || userModel.db.readyState !== 1) {
-      console.error("Database not connected");
-      return res.status(503).json({ error: "Database connection unavailable" });
+      return res.status(400).json("All fields are required!");
     }
 
     const existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
-      return res.status(409).json({ error: "User already exists." });
+      return res.status(409).json("User already exists.");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new userModel({
+    const user = await new userModel({
       fullName,
       email,
       phone,
@@ -65,12 +54,6 @@ export const registerUser = async (req, res) => {
     });
 
     await user.save();
-
-    // Check if JWT_SECRET exists
-    if (!process.env.JWT_SECRET) {
-      console.error("JWT_SECRET is not defined");
-      return res.status(500).json({ error: "Server configuration error" });
-    }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
@@ -93,68 +76,12 @@ export const registerUser = async (req, res) => {
         },
       });
   } catch (error) {
-    console.error("Registration error:", error);
-    return res.status(500).json({
-      error: "Internal Server Error",
-      details:
-        process.env.NODE_ENV === "development" ? error.message : undefined,
-    });
+    console.log(error);
+    return res.status(500).json("Internal Server Error");
   }
 };
 
-// export const registerUser = async (req, res) => {
-//   try {
-//     const { fullName, email, phone, password } = req.body;
-
-//     console.log(fullName, email, phone, password);
-
-//     if (!fullName || !email || !phone || !password) {
-//       return res.status(400).json("All fields are required!");
-//     }
-
-//     const existingUser = await userModel.findOne({ email });
-
-//     if (existingUser) {
-//       return res.status(409).json("User already exists.");
-//     }
-
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     const user = await new userModel({
-//       fullName,
-//       email,
-//       phone,
-//       password: hashedPassword,
-//     });
-
-//     await user.save();
-
-//     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-//       expiresIn: "1d",
-//     });
-
-//     return res
-//       .status(201)
-//       .cookie("token", token, {
-//         httpOnly: true,
-//         secure: isProduction,
-//         sameSite: isProduction ? "none" : "lax",
-//         maxAge: 24 * 60 * 60 * 1000,
-//       })
-//       .json({
-//         message: "User registered successfully!",
-//         user: {
-//           fullName: user.fullName,
-//           email: user.email,
-//           phone: user.phone,
-//         },
-//       });
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).json("Internal Server Error");
-//   }
-// };
-
+// Login user
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -206,6 +133,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
+// Logout user
 export const logoutUser = (req, res) => {
   try {
     res.clearCookie("token", {
@@ -221,6 +149,7 @@ export const logoutUser = (req, res) => {
   }
 };
 
+// Edit user data
 export const editUserData = async (req, res) => {
   try {
     const { fullName, email, phone } = req.body;
