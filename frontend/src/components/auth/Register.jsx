@@ -33,6 +33,7 @@ const Register = () => {
     };
 
     const resData = await sendRequest(body);
+    console.log(resData);
     setCurrentUser(resData.user);
     navigate("/");
   }
@@ -50,8 +51,9 @@ const Register = () => {
     };
 
     const resData = await sendRequest(body);
+    console.log(resData);
     setCurrentUser(resData.user.email);
-    navigate("/");
+    // navigate("/");
   }
 
   return (

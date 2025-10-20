@@ -2,7 +2,7 @@ import userModel from "../model/user.model.js";
 import orderModel from "../model/order.model.js";
 import mealModel from "../model/meals.model.js";
 
-// Get all users (admin only)
+// Get all users
 export const getAllUsers = async (req, res) => {
   try {
     const users = await userModel
@@ -24,7 +24,7 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-// Get all orders (admin only)
+// Get all orders
 export const getAllOrders = async (req, res) => {
   try {
     const { status } = req.query;
@@ -50,7 +50,7 @@ export const getAllOrders = async (req, res) => {
   }
 };
 
-// Update order status (admin only)
+// Update order status
 export const updateOrderStatus = async (req, res) => {
   try {
     const { orderId } = req.params;
@@ -92,7 +92,7 @@ export const updateOrderStatus = async (req, res) => {
   }
 };
 
-// Dashboard stats (admin only)
+// Dashboard stats
 export const getDashboardStats = async (req, res) => {
   try {
     const totalUsers = await userModel.countDocuments();
@@ -133,7 +133,7 @@ export const getDashboardStats = async (req, res) => {
   }
 };
 
-// Toggle user active status (admin only)
+// Toggle user active status
 export const toggleUserStatus = async (req, res) => {
   try {
     const { userId } = req.params;

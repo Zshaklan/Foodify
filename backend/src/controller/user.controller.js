@@ -27,23 +27,38 @@ export const getCurrentUser = async (req, res) => {
   }
 };
 
+// Register user
 export const registerUser = async (req, res) => {
   try {
     const { fullName, email, phone, password } = req.body;
 
+    console.log("Request body:", {
+      fullName,
+      email,
+      phone,
+      hasPassword: !!password,
+    });
+
+    // Validation
     if (!fullName || !email || !phone || !password) {
-      return res.status(400).json("All fields are required!");
+      return res.status(400).json({ error: "All fields are required!" });
+    }
+
+    // Check MongoDB connection
+    if (!userModel.db || userModel.db.readyState !== 1) {
+      console.error("Database not connected");
+      return res.status(503).json({ error: "Database connection unavailable" });
     }
 
     const existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
-      return res.status(409).json("User already exists.");
+      return res.status(409).json({ error: "User already exists." });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await new userModel({
+    const user = new userModel({
       fullName,
       email,
       phone,
@@ -52,9 +67,18 @@ export const registerUser = async (req, res) => {
 
     await user.save();
 
+    // Check if JWT_SECRET exists
+    if (!process.env.JWT_SECRET) {
+      console.error("JWT_SECRET is not defined");
+      return res.status(500).json({ error: "Server configuration error" });
+    }
+
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
+
+    // Define isProduction properly
+    const isProduction = process.env.NODE_ENV === "production";
 
     return res
       .status(201)
@@ -73,10 +97,67 @@ export const registerUser = async (req, res) => {
         },
       });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json("Internal Server Error");
+    console.error("Registration error:", error);
+    return res.status(500).json({
+      error: "Internal Server Error",
+      details:
+        process.env.NODE_ENV === "development" ? error.message : undefined,
+    });
   }
 };
+
+// export const registerUser = async (req, res) => {
+//   try {
+//     const { fullName, email, phone, password } = req.body;
+
+//     console.log(fullName, email, phone, password);
+
+//     if (!fullName || !email || !phone || !password) {
+//       return res.status(400).json("All fields are required!");
+//     }
+
+//     const existingUser = await userModel.findOne({ email });
+
+//     if (existingUser) {
+//       return res.status(409).json("User already exists.");
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     const user = await new userModel({
+//       fullName,
+//       email,
+//       phone,
+//       password: hashedPassword,
+//     });
+
+//     await user.save();
+
+//     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+//       expiresIn: "1d",
+//     });
+
+//     return res
+//       .status(201)
+//       .cookie("token", token, {
+//         httpOnly: true,
+//         secure: isProduction,
+//         sameSite: isProduction ? "none" : "lax",
+//         maxAge: 24 * 60 * 60 * 1000,
+//       })
+//       .json({
+//         message: "User registered successfully!",
+//         user: {
+//           fullName: user.fullName,
+//           email: user.email,
+//           phone: user.phone,
+//         },
+//       });
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json("Internal Server Error");
+//   }
+// };
 
 export const loginUser = async (req, res) => {
   try {
