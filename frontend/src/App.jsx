@@ -11,6 +11,7 @@ import CartContextProvider from "./store/CartContext";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MealDesctiption from "./components/MealDesctiption";
 import Profile from "./components/profile/Profile";
+import Admin from "./components/admin/Admin.jsx";
 
 function AppRoutes() {
   const { currentUser } = useContext(UserProgressContext);
@@ -44,6 +45,14 @@ function AppRoutes() {
           element: (
             <ProtectedRoute user={currentUser}>
               <Profile />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/admin",
+          element: (
+            <ProtectedRoute user={currentUser} requiredRole="admin">
+              <Admin />
             </ProtectedRoute>
           ),
         },

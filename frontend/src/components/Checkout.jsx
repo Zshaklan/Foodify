@@ -26,7 +26,7 @@ export default function Checkout() {
     error,
     sendRequest,
     clearData,
-  } = useHttp(`http://localhost:5000/api/order`, requestConfig);
+  } = useHttp(`${BASE_API_URL}/api/order`, requestConfig);
 
   const cartTotal = cartCtx.cartItems.reduce(
     (totalPrice, item) => totalPrice + item.quantity * item.price,

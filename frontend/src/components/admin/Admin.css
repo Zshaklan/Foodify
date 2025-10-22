@@ -1,0 +1,74 @@
+.admin {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+  /* background-color: #; */
+  min-height: 100vh;
+}
+
+/* Header */
+.admin .header {
+  background-color: #ffffff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px #ffc404;
+  margin-bottom: 20px;
+}
+
+.admin .header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+/* Navigation tabs */
+.admin .navigation {
+  background-color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px #ffc404;
+  margin-bottom: 20px;
+}
+
+.admin .navigation nav {
+  display: flex;
+  gap: 15px;
+}
+
+.admin .navigation button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #e0e0e0;
+  color: #333;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.admin .navigation button:hover {
+  background-color: #d0d0d0;
+}
+
+.admin .navigation button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Content */
+.admin > div:last-child {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin .navigation nav {
+    flex-direction: column;
+  }
+
+  .admin .navigation button {
+    width: 100%;
+  }
+}

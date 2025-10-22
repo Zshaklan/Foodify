@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 
 async function sendHttpRequest(url, config) {
+  console.log(url, config);
   const response = await fetch(url, { ...config, credentials: "include" });
+  console.log(response);
 
   const resData = await response.json();
+  console.log(resData);
 
   if (!response.ok) {
     throw new Error(

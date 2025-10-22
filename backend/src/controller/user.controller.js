@@ -32,8 +32,6 @@ export const registerUser = async (req, res) => {
   try {
     const { fullName, email, phone, password } = req.body;
 
-    console.log(fullName, email, phone, password);
-
     if (!fullName || !email || !phone || !password) {
       return res.status(400).json("All fields are required!");
     }
@@ -63,9 +61,10 @@ export const registerUser = async (req, res) => {
       .status(201)
       .cookie("token", token, {
         httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? "none" : "lax",
+        secure: isProduction ? true : false,
+        sameSite: "none",
         maxAge: 24 * 60 * 60 * 1000,
+        path: "/",
       })
       .json({
         message: "User registered successfully!",
@@ -114,13 +113,15 @@ export const loginUser = async (req, res) => {
       .status(200)
       .cookie("token", token, {
         httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? "none" : "lax",
+        secure: isProduction ? true : false,
+        sameSite: "none",
         maxAge: 24 * 60 * 60 * 1000,
+        path: "/",
       })
       .json({
         message: "User logged in successfully!",
         user: {
+          role: user.role,
           fullName: user.fullName,
           email: user.email,
           phone: user.phone,

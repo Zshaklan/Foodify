@@ -16,6 +16,8 @@ export default function Header() {
     method: "POST",
   });
 
+  console.log(currentUser);
+
   const navigate = useNavigate();
 
   const totalCartItems = cartCtx.cartItems.reduce((total, item) => {
@@ -51,6 +53,12 @@ export default function Header() {
             Cart ({totalCartItems})
           </Button>
           <Button onClick={handleLogout}>Logout</Button>
+
+          {currentUser.role === "admin" && (
+            <Link to={"/admin"}>
+              <Button>Admin</Button>
+            </Link>
+          )}
 
           <Link to={"/profile"}>
             <Button className="user">

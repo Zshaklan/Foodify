@@ -29,9 +29,9 @@ export default function MealDescription() {
     if (meal) cartCtx.addItem(meal);
   }
 
-  if (isLoading) return <p>Loading meal...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (!meal) return <p>No meal found!</p>;
+  if (isLoading) return <p className="center">Loading meal...</p>;
+  if (error) return <p className="center">Error: {error}</p>;
+  if (!meal) return <p className="center">No meal found!</p>;
 
   return (
     <div className="meal-description">
