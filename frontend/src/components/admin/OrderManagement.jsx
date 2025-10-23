@@ -4,7 +4,6 @@ import { UserProgressContext } from "../../store/UserProgressContext";
 import { FaRegClock, FaTruck } from "react-icons/fa";
 import { GoPackage, GoXCircle } from "react-icons/go";
 import { FiCheckCircle } from "react-icons/fi";
-import { updateOrderStatus } from "../../../../backend/src/controller/admin.controller";
 import Button from "../UI/Button";
 
 const orderStatus = [

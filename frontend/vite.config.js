@@ -12,4 +12,10 @@ export default defineConfig({
       "/api": "https://foodify-backend-two.vercel.app",
     },
   },
+  build: {
+    outDir: "dist",
+    rollupOptions: {
+      external: ["mongoose", "express", "bcryptjs", "jsonwebtoken"],
+    },
+  },
 });
