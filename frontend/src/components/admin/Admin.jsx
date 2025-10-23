@@ -4,7 +4,7 @@ import Overview from "./Overview.jsx";
 import Order from "./Order.jsx";
 import Users from "./Users.jsx";
 import useHttp from "../../hooks/useHttp";
-import { API_URL } from "../../config/api.js";
+import { VITE_API_URL } from "../../config/api.js";
 
 const navigationTabs = ["overview", "orders", "users"];
 
@@ -19,13 +19,13 @@ const Admin = () => {
     isLoading: isUsersLoading,
     error: usersError,
     sendRequest: fetchUsers,
-  } = useHttp(`${API_URL}/api/admin/users`, emptyConfig);
+  } = useHttp(`${VITE_API_URL}/api/admin/users`, emptyConfig);
   const {
     data: ordersData,
     isLoading: isOrdersLoading,
     error: ordersError,
     sendRequest: fetchOrders,
-  } = useHttp(`${API_URL}/api/admin/orders`, emptyConfig);
+  } = useHttp(`${VITE_API_URL}/api/admin/orders`, emptyConfig);
 
   useEffect(() => {
     async function fetchAll() {

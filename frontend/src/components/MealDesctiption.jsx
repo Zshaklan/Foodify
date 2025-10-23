@@ -5,6 +5,7 @@ import Button from "./UI/Button.jsx";
 import { currencyFormatter } from "../utils/formatting.js";
 import useHttp from "../hooks/useHttp";
 import "./MealDescription.css";
+import { VITE_API_URL } from "../config/api.js";
 
 export default function MealDescription() {
   const cartCtx = useContext(CartContext);
@@ -13,7 +14,7 @@ export default function MealDescription() {
   const config = useMemo(() => ({ method: "GET" }), []);
 
   const { sendRequest, data, isLoading, error } = useHttp(
-    `/api/meals/${id}`,
+    `${VITE_API_URL}/api/meals/${id}`,
     config
   );
 

@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { API_URL } from "../config/api.js";
+import { VITE_API_URL } from "../config/api.js";
 
 export const UserProgressContext = createContext({
   progress: "",
@@ -25,7 +25,7 @@ export default function UserProgressContextProvider({ children }) {
   useEffect(() => {
     async function fetchCurrentUser() {
       try {
-        const res = await fetch(`${API_URL}/api/auth/user/me`, {
+        const res = await fetch(`${VITE_API_URL}/api/auth/user/me`, {
           credentials: "include",
         });
         const data = await res.json();
