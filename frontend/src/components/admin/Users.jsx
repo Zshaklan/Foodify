@@ -2,6 +2,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import "./Users.css";
 import useHttp from "../../hooks/useHttp";
 import { useState } from "react";
+import { API_URL } from "../../config/api";
 
 const Users = ({ users: initialUsers }) => {
   const [users, setUsers] = useState(initialUsers);
@@ -10,9 +11,12 @@ const Users = ({ users: initialUsers }) => {
 
   const toggleUserStatus = async (userId) => {
     try {
-      await toggleStatusRequest(`/api/admin/users/${userId}/toggle-status`, {
-        method: "PATCH",
-      });
+      await toggleStatusRequest(
+        `${API_URL}/api/admin/users/${userId}/toggle-status`,
+        {
+          method: "PATCH",
+        }
+      );
 
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
@@ -29,9 +33,12 @@ const Users = ({ users: initialUsers }) => {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
 
     try {
-      const res = await deleteUserRequest(`/api/admin/users/${userId}/delete`, {
-        method: "DELETE",
-      });
+      const res = await deleteUserRequest(
+        `${API_URL}/api/admin/users/${userId}/delete`,
+        {
+          method: "DELETE",
+        }
+      );
       console.log(res);
 
       setUsers((prevUsers) => prevUsers.filter((user) => user._id !== userId));

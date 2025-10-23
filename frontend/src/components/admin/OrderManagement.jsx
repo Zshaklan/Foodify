@@ -39,7 +39,7 @@ const OrderManagement = ({ selectedOrder }) => {
       cancelled: { background: "#FEE2E2", color: "#991B1B" },
     };
 
-    return colors[status] || { background: "#F3F4F6", color: "#374151" }; // gray fallback
+    return colors[status] || { background: "#F3F4F6", color: "#374151" };
   };
 
   function updateOrderStatus() {}

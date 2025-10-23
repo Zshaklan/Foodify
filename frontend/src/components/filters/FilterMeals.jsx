@@ -8,14 +8,12 @@ const FilterMeals = ({ meals, setAvailableMeals, searchTerm }) => {
   useEffect(() => {
     let filtered = meals;
 
-    // Search filter
     if (searchTerm.trim() !== "" && meals) {
       filtered = filtered.filter((meal) =>
         meal.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
-    // Diet filter
     if (dietFilter !== "All") {
       filtered = filtered.filter(
         (meal) =>
@@ -24,7 +22,6 @@ const FilterMeals = ({ meals, setAvailableMeals, searchTerm }) => {
       );
     }
 
-    // Price filter
     if (priceFilter !== "All") {
       filtered = filtered.filter((meal) => {
         const price = parseFloat(meal.price);
@@ -35,7 +32,6 @@ const FilterMeals = ({ meals, setAvailableMeals, searchTerm }) => {
       });
     }
 
-    // Update the meals in parent
     setAvailableMeals(filtered || []);
   }, [priceFilter, dietFilter, meals, setAvailableMeals, searchTerm]);
 

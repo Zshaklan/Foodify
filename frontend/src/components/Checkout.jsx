@@ -8,6 +8,7 @@ import Button from "./UI/Button.jsx";
 import { UserProgressContext } from "../store/UserProgressContext.jsx";
 import useHttp from "../hooks/useHttp.jsx";
 import Error from "./Error.jsx";
+import { API_URL } from "../config/api.js";
 
 const requestConfig = {
   method: "POST",
@@ -26,7 +27,7 @@ export default function Checkout() {
     error,
     sendRequest,
     clearData,
-  } = useHttp("/api/order", requestConfig);
+  } = useHttp(`${API_URL}/api/order`, requestConfig);
 
   const cartTotal = cartCtx.cartItems.reduce(
     (totalPrice, item) => totalPrice + item.quantity * item.price,

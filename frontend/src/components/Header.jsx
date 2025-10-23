@@ -6,13 +6,13 @@ import { CartContext } from "../store/CartContext";
 import { UserProgressContext } from "../store/UserProgressContext";
 import useHttp from "../hooks/useHttp";
 import { Link, useNavigate } from "react-router-dom";
-// import { BASE_API_URL } from "../utils/formatting.js";
+import { API_URL } from "../config/api";
 
 export default function Header() {
   const cartCtx = useContext(CartContext);
   const { setCurrentUser, currentUser } = useContext(UserProgressContext);
   const userProgressCtx = useContext(UserProgressContext);
-  const { sendRequest } = useHttp("/api/auth/user/logout", {
+  const { sendRequest } = useHttp(`${API_URL}/api/auth/user/logout`, {
     method: "POST",
   });
 
