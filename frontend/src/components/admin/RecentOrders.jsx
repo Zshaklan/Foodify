@@ -1,4 +1,20 @@
-const RecentOrders = () => {
+import { FaRegClock, FaTruck } from "react-icons/fa";
+import { GoPackage, GoXCircle } from "react-icons/go";
+import { FiCheckCircle } from "react-icons/fi";
+import "./RecentOrders.css";
+
+const RecentOrders = ({ orders }) => {
+  const getStatusIcon = (status) => {
+    const icons = {
+      pending: <FaRegClock className="status-icon" />,
+      processing: <GoPackage className="status-icon" />,
+      shipped: <FaTruck className="status-icon" />,
+      delivered: <FiCheckCircle className="status-icon" />,
+      cancelled: <GoXCircle className="status-icon" />,
+    };
+    return icons[status] || <FaRegClock className="status-icon" />;
+  };
+
   return (
     <div className="recent_orders">
       <div className="heading">
@@ -18,7 +34,7 @@ const RecentOrders = () => {
           <tbody>
             {orders.slice(0, 5).map((order) => (
               <tr key={order._id}>
-                <td>{order.orderNumber}</td>
+                <td>{order._id}</td>
                 <td>{order.user.fullName}</td>
                 <td>
                   <span>
@@ -26,7 +42,7 @@ const RecentOrders = () => {
                     {order.status}
                   </span>
                 </td>
-                <td>${order.total}</td>
+                <td>₹{order.totalAmount}</td>
                 <td>{order.createdAt}</td>
               </tr>
             ))}

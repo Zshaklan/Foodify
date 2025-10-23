@@ -6,11 +6,13 @@ export default function Modal({ children, open, className = "", onClose }) {
 
   useEffect(() => {
     const modal = dialog.current;
+    if (!modal) return;
 
     if (open) {
-      modal.showModal();
+      if (!modal.open) modal.showModal();
+    } else {
+      if (modal.open) modal.close();
     }
-    return () => modal.close();
   }, [open]);
 
   return createPortal(

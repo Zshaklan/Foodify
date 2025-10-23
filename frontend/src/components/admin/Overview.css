@@ -1,0 +1,95 @@
+/* Admin.css or Overview.css */
+.overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Individual stat card */
+.overview_stats {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.overview_stats:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.overview_stats div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.overview_stats div div {
+  display: flex;
+  flex-direction: column;
+}
+
+.overview_stats p:first-child {
+  font-size: 14px;
+  color: #777;
+  margin: 0;
+}
+
+.overview_stats p:last-child {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 5px 0 0 0;
+  color: #333;
+}
+
+/* Optional: different colors for each stat type */
+.total_users {
+  border-left: 5px solid cyan;
+}
+
+.total_orders {
+  border-left: 5px solid orange;
+}
+
+.pending_orders {
+  border-left: 5px solid #fa0a0a;
+}
+
+.total_revenue {
+  border-left: 5px solid green;
+}
+
+.overview_stats svg {
+  width: 30px;
+  height: 30px;
+  color: #007bff;
+}
+
+/* Optional: color per stat type */
+.overview_stats.total_users svg {
+  color: #17a2b8;
+}
+
+.overview_stats.total_orders svg {
+  color: #ffc107;
+}
+
+.overview_stats.pending_orders svg {
+  color: red;
+}
+
+.overview_stats.total_revenue svg {
+  color: green;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .overview {
+    grid-template-columns: 1fr;
+  }
+}

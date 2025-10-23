@@ -1,5 +1,5 @@
 import "./Admin.css";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Overview from "./Overview.jsx";
 import Order from "./Order.jsx";
 import Users from "./Users.jsx";
@@ -9,37 +9,50 @@ const navigationTabs = ["overview", "orders", "users"];
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState("overview");
+  const [users, setUsers] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const emptyConfig = useMemo(() => ({}), []);
+
   const {
-    data: users,
+    data: usersData,
     isLoading: isUsersLoading,
     error: usersError,
     sendRequest: fetchUsers,
-  } = useHttp("http://localhost:5000/api/admin/users");
+  } = useHttp("/api/admin/users", emptyConfig);
   const {
-    data: orders,
+    data: ordersData,
     isLoading: isOrdersLoading,
     error: ordersError,
     sendRequest: fetchOrders,
-  } = useHttp("http://localhost:5000/api/admin/orders");
+  } = useHttp("/api/admin/orders", emptyConfig);
 
   useEffect(() => {
-    if (activeTab === "users") fetchUsers();
-    if (activeTab === "orders") fetchOrders();
-  }, [activeTab]);
+    async function fetchAll() {
+      await fetchUsers();
+      await fetchOrders();
+    }
+    fetchAll();
+  }, []);
 
-  console.log(users, usersError);
-  console.log(orders, ordersError);
+  // Update local state whenever data changes
+  useEffect(() => {
+    if (usersData) setUsers(usersData.users);
+  }, [usersData]);
+
+  useEffect(() => {
+    if (ordersData) setOrders(ordersData.orders);
+  }, [ordersData]);
+
+  console.log(usersData);
 
   return (
     <div className="admin">
-      {/* Header */}
       <div className="header">
         <div>
           <h1>Admin Dashboard</h1>
         </div>
       </div>
 
-      {/* Navigation tabs  */}
       <div className="navigation">
         <div>
           <nav>
@@ -52,11 +65,10 @@ const Admin = () => {
         </div>
       </div>
 
-      {/* Content  */}
       <div>
-        {/* {activeTab === "overview" && <Overview />} */}
-        {/* {activeTab === "orders" && <Order />} */}
-        {/* {activeTab === "users" && <Users />} */}
+        {activeTab === "overview" && <Overview users={users} orders={orders} />}
+        {activeTab === "orders" && <Order orders={orders} />}
+        {activeTab === "users" && <Users users={users} />}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import Error from "./Error.jsx";
 import { useState } from "react";
 import Button from "./UI/Button.jsx";
 import FilterMeals from "./filters/FilterMeals.jsx";
-import { BASE_API_URL } from "../utils/formatting.js";
+// import { BASE_API_URL } from "../utils/formatting.js";
 
 const requestConfig = {};
 const mealsPerPage = 10;
@@ -14,7 +14,7 @@ export default function Meals() {
   const [currentPage, setCurrentPage] = useState(1);
   const [availableMeals, setAvailableMeals] = useState([]);
   const { data, isLoading, error } = useHttp(
-    `${BASE_API_URL}/api/meals?page=${currentPage}&limit=${mealsPerPage}`,
+    `/api/meals?page=${currentPage}&limit=${mealsPerPage}`,
     requestConfig,
     []
   );

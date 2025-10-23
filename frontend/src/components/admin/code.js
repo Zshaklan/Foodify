@@ -1,20 +1,4 @@
-const [activeTab, setActiveTab] = useState("overview");
-const [users, setUsers] = useState([]);
-const [orders, setOrders] = useState([]);
-const [searchTerm, setSearchTerm] = useState("");
-const [filterStatus, setFilterStatus] = useState("all");
-const [selectedOrder, setSelectedOrder] = useState(null);
 const [isModalOpen, setIsModalOpen] = useState(false);
-
-// Fetch data (replace with your actual API calls)
-useEffect(() => {
-  fetchUsers();
-  fetchOrders();
-}, []);
-
-const fetchUsers = async () => {};
-
-const fetchOrders = async () => {};
 
 const updateOrderStatus = async (orderId, newStatus) => {
   // Replace with actual API call

@@ -5,8 +5,6 @@ import { UserProgressContext } from "../store/UserProgressContext";
 export default function ProtectedRoute({ children, user, requiredRole }) {
   const { isAuthReady } = useContext(UserProgressContext);
 
-  console.log(user);
-
   if (!isAuthReady) {
     return <p className="center">Checking authentication...</p>;
   }

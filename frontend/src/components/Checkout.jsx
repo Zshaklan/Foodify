@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import Modal from "./UI/Modal.jsx";
 import { CartContext } from "../store/CartContext.jsx";
-import { BASE_API_URL, currencyFormatter } from "../utils/formatting.js";
+import { currencyFormatter } from "../utils/formatting.js";
 import Input from "./UI/Input.jsx";
 import Button from "./UI/Button.jsx";
 import { UserProgressContext } from "../store/UserProgressContext.jsx";
@@ -26,7 +26,7 @@ export default function Checkout() {
     error,
     sendRequest,
     clearData,
-  } = useHttp(`${BASE_API_URL}/api/order`, requestConfig);
+  } = useHttp("/api/order", requestConfig);
 
   const cartTotal = cartCtx.cartItems.reduce(
     (totalPrice, item) => totalPrice + item.quantity * item.price,

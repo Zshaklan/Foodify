@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { CartContext } from "../store/CartContext.jsx";
 import Button from "./UI/Button.jsx";
-import { BASE_API_URL, currencyFormatter } from "../utils/formatting.js";
+import { currencyFormatter } from "../utils/formatting.js";
 import useHttp from "../hooks/useHttp";
 import "./MealDescription.css";
 
@@ -13,7 +13,7 @@ export default function MealDescription() {
   const config = useMemo(() => ({ method: "GET" }), []);
 
   const { sendRequest, data, isLoading, error } = useHttp(
-    `${BASE_API_URL}/api/meals/${id}`,
+    `/api/meals/${id}`,
     config
   );
 

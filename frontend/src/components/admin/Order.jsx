@@ -1,13 +1,53 @@
-import React from "react";
+import { useContext, useState } from "react";
+import { FaSearch } from "react-icons/fa";
+import { FaRegClock, FaTruck } from "react-icons/fa";
+import { GoPackage, GoXCircle } from "react-icons/go";
+import { FiCheckCircle } from "react-icons/fi";
+import "./Order.css";
+import { UserProgressContext } from "../../store/UserProgressContext";
+import Modal from "../UI/Modal";
+import OrderManagement from "./OrderManagement";
 
-const Order = () => {
+const Order = ({ orders }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [selectedOrder, setSelectedOrder] = useState(null);
+
+  const { showOrderManagement, hideOrderManagement, progress } =
+    useContext(UserProgressContext);
+
+  const filteredOrders = orders.filter((order) => {
+    const matchesSearch =
+      order._id.includes(searchTerm) ||
+      order.user.fullName.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesFilter =
+      filterStatus === "all" || order.status === filterStatus;
+    return matchesSearch && matchesFilter;
+  });
+
+  const getStatusIcon = (status) => {
+    const icons = {
+      pending: <FaRegClock className="status-icon" />,
+      processing: <GoPackage className="status-icon" />,
+      shipped: <FaTruck className="status-icon" />,
+      delivered: <FiCheckCircle className="status-icon" />,
+      cancelled: <GoXCircle className="status-icon" />,
+    };
+    return icons[status] || <FaRegClock className="status-icon" />;
+  };
+
+  const handleManageClick = (order) => {
+    setSelectedOrder(order);
+    showOrderManagement();
+  };
+  console.log(progress);
+
   return (
     <div className="order">
-      {/* Search and Filter */}
       <div>
         <div className="order_filter">
           <div>
-            {/* Add search icon here */}
+            <FaSearch />
             <input
               type="text"
               placeholder="Search orders..."
@@ -29,7 +69,6 @@ const Order = () => {
         </div>
       </div>
 
-      {/* Orders Table */}
       <div className="order_table">
         <div>
           <table>
@@ -47,25 +86,30 @@ const Order = () => {
             <tbody>
               {filteredOrders.map((order) => (
                 <tr key={order._id}>
-                  <td>{order.orderNumber}</td>
+                  <td>{order._id}</td>
                   <td>
                     <div>{order.user.fullName}</div>
                     <div>{order.user.email}</div>
                   </td>
-                  <td>{order.items}</td>
+                  <td>
+                    {order.items.map((item) => (
+                      <div key={item._id}>
+                        {item.meal.name} x {item.quantity} (₹{item.price})
+                      </div>
+                    ))}
+                  </td>
                   <td>
                     <span>
                       {getStatusIcon(order.status)}
                       {order.status}
                     </span>
                   </td>
-                  <td>${order.total}</td>
-                  <td>{order.createdAt}</td>
+                  <td>₹{order.totalAmount}</td>
+                  <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                   <td>
                     <button
                       onClick={() => {
-                        setSelectedOrder(order);
-                        setIsModalOpen(true);
+                        handleManageClick(order);
                       }}
                     >
                       Manage
@@ -77,6 +121,19 @@ const Order = () => {
           </table>
         </div>
       </div>
+
+      {/* Modal for managing order */}
+      {selectedOrder && (
+        <Modal
+          open={progress === "management"}
+          onClose={() => {
+            hideOrderManagement();
+            setSelectedOrder(null);
+          }}
+        >
+          <OrderManagement selectedOrder={selectedOrder} />
+        </Modal>
+      )}
     </div>
   );
 };

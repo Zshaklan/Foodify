@@ -1,54 +1,64 @@
-import RecentOrders from "./RecentOrders.jsx";
-import useHttp from "../../hooks/useHttp";
+import "./Overview.css";
+import { FaIndianRupeeSign } from "react-icons/fa6";
+import { FiUsers } from "react-icons/fi";
+import { GoPackage } from "react-icons/go";
 
-const Overview = () => {
-  const { sendRequest } = useHttp();
+import RecentOrders from "./RecentOrders.jsx";
+
+const Overview = ({ users, orders }) => {
+  const stats = {
+    totalUsers: users.length,
+    activeUsers: users.filter((user) => user.isActive).length,
+    totalOrders: orders.length,
+    totalRevenue: orders.reduce((sum, order) => sum + order.totalAmount, 0),
+    pendingOrders: orders.filter((o) => o.status === "pending").length,
+  };
 
   return (
-    <div className="overview">
-      <div>
+    <>
+      <div className="overview">
         <div className="overview_stats total_users">
           <div>
-            <p>Total Users</p>
-            <p>{stats.totalUsers}</p>
+            <div>
+              <p>Total Users</p>
+              <p>{stats.totalUsers}</p>
+            </div>
+            <FiUsers />
           </div>
-          {/* Add users icon here */}
         </div>
-      </div>
 
-      <div className="overview_stats total_orders">
-        <div>
+        <div className="overview_stats total_orders">
           <div>
-            <p>Total Orders</p>
-            <p>{stats.totalOrders}</p>
+            <div>
+              <p>Total Orders</p>
+              <p>{stats.totalOrders}</p>
+            </div>
+            <GoPackage />
           </div>
-          {/* Add orders icon here */}
         </div>
-      </div>
 
-      <div className="overview_stats pending_orders">
-        <div>
+        <div className="overview_stats pending_orders">
           <div>
-            <p>Pending Orders</p>
-            <p>{stats.pendingOrders}</p>
+            <div>
+              <p>Pending Orders</p>
+              <p>{stats.pendingOrders}</p>
+            </div>
+            <GoPackage />
           </div>
-          {/* Add icon pending orders here */}
         </div>
-      </div>
 
-      <div className="overview_stats total_revenue">
-        <div>
+        <div className="overview_stats total_revenue">
           <div>
-            <p>Total Revenue</p>
-            <p>${stats.totalRevenue.toFixed(2)}</p>
+            <div>
+              <p>Total Revenue</p>
+              <p>{stats.totalRevenue.toFixed(2)}</p>
+            </div>
+            <FaIndianRupeeSign />
           </div>
-          {/* Add currency icon here */}
         </div>
       </div>
-
-      {/* Recent Orders */}
-      <RecentOrders />
-    </div>
+      <RecentOrders orders={orders} />
+    </>
   );
 };
 

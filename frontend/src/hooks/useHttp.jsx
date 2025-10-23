@@ -1,16 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 
 async function sendHttpRequest(url, config) {
-  console.log(url, config);
   const response = await fetch(url, { ...config, credentials: "include" });
-  console.log(response);
 
   const resData = await response.json();
-  console.log(resData);
 
   if (!response.ok) {
     throw new Error(
-      resData.message || "Something went wrong, failed to send request."
+      resData.message ||
+        resData.error ||
+        "Something went wrong, failed to send request."
     );
   }
 
@@ -27,7 +26,7 @@ export default function useHttp(url, config, initialData = null) {
   }
 
   const sendRequest = useCallback(
-    async function sendRequest(bodyData) {
+    async function sendRequest(bodyData = null, overrideConfig = {}) {
       setIsLoading(true);
       setError(null);
 
@@ -36,22 +35,25 @@ export default function useHttp(url, config, initialData = null) {
 
         const finalConfig = {
           ...config,
+          ...overrideConfig,
           body: isFormData || !bodyData ? bodyData : JSON.stringify(bodyData),
           headers: isFormData
-            ? { ...config.headers }
+            ? { ...config.headers, ...overrideConfig.headers }
             : {
                 "Content-Type": "application/json",
                 ...config.headers,
+                ...overrideConfig.headers,
               },
         };
 
-        // Remove Content-Type header for FormData (let browser set it with boundary)
         if (isFormData && finalConfig.headers) {
           delete finalConfig.headers["Content-Type"];
         }
 
-        const resData = await sendHttpRequest(url, finalConfig);
-        console.log(resData);
+        const resData = await sendHttpRequest(
+          overrideConfig.url || url,
+          finalConfig
+        );
         setData(resData);
         return resData;
       } catch (err) {

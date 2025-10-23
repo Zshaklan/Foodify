@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import { BASE_API_URL } from "../utils/formatting.js";
 
 export const UserProgressContext = createContext({
   progress: "",
@@ -13,6 +12,8 @@ export const UserProgressContext = createContext({
   hideEditProfile: () => {},
   setCurrentUser: () => {},
   setIsAuthReady: () => {},
+  showOrderManagement: () => {},
+  hideOrderManagement: () => {},
 });
 
 export default function UserProgressContextProvider({ children }) {
@@ -23,7 +24,7 @@ export default function UserProgressContextProvider({ children }) {
   useEffect(() => {
     async function fetchCurrentUser() {
       try {
-        const res = await fetch(`${BASE_API_URL}/api/auth/user/me`, {
+        const res = await fetch("/api/auth/user/me", {
           credentials: "include",
         });
         const data = await res.json();
@@ -43,6 +44,8 @@ export default function UserProgressContextProvider({ children }) {
   const hideCheckout = () => setProgress("");
   const showEditProfile = () => setProgress("profile");
   const hideEditProfile = () => setProgress("");
+  const showOrderManagement = () => setProgress("management");
+  const hideOrderManagement = () => setProgress("");
 
   const UserProgressCtx = {
     progress,
@@ -56,6 +59,8 @@ export default function UserProgressContextProvider({ children }) {
     hideEditProfile,
     setCurrentUser,
     setIsAuthReady,
+    showOrderManagement,
+    hideOrderManagement,
   };
 
   return (

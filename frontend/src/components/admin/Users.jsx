@@ -1,80 +1,92 @@
-import React from "react";
+import { FaTrashAlt } from "react-icons/fa";
+import "./Users.css";
+import useHttp from "../../hooks/useHttp";
+import { useState } from "react";
 
-const Users = () => {
+const Users = ({ users: initialUsers }) => {
+  const [users, setUsers] = useState(initialUsers);
+  const { sendRequest: toggleStatusRequest } = useHttp();
+  const { sendRequest: deleteUserRequest } = useHttp();
+
+  const toggleUserStatus = async (userId) => {
+    try {
+      await toggleStatusRequest(`/api/admin/users/${userId}/toggle-status`, {
+        method: "PATCH",
+      });
+
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user._id === userId ? { ...user, isActive: !user.isActive } : user
+        )
+      );
+    } catch (err) {
+      console.error(err);
+      alert("Failed to toggle user status");
+    }
+  };
+
+  const deleteUser = async (userId) => {
+    if (!window.confirm("Are you sure you want to delete this user?")) return;
+
+    try {
+      const res = await deleteUserRequest(`/api/admin/users/${userId}/delete`, {
+        method: "DELETE",
+      });
+      console.log(res);
+
+      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== userId));
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete user");
+    }
+  };
+
   return (
-    <div className="bg-white rounded-lg shadow overflow-hidden">
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-gray-50">
+    <div className="users-container">
+      <div className="users-table-wrapper">
+        <table className="users-table">
+          <thead>
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Name
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Email
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Phone
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Orders
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Joined
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
-              </th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Orders</th>
+              <th>Status</th>
+              <th>Joined</th>
+              <th>Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody>
             {users.map((user) => (
-              <tr key={user._id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {user.fullName}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {user.email}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {user.phone}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {user.totalOrders}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+              <tr key={user._id}>
+                <td>{user.fullName}</td>
+                <td>{user.email}</td>
+                <td>{user.phone}</td>
+                <td>{user.totalOrders || 0}</td>
+                <td>
                   <span
-                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      user.isActive
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800"
+                    className={`status-badge ${
+                      user.isActive ? "active" : "inactive"
                     }`}
                   >
                     {user.isActive ? "Active" : "Inactive"}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {user.createdAt}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+                <td className="actions">
                   <button
                     onClick={() => toggleUserStatus(user._id)}
-                    className={`inline-flex items-center px-3 py-1 rounded ${
-                      user.isActive
-                        ? "bg-red-100 text-red-700 hover:bg-red-200"
-                        : "bg-green-100 text-green-700 hover:bg-green-200"
+                    className={`action-btn ${
+                      user.isActive ? "deactivate" : "activate"
                     }`}
                   >
                     {user.isActive ? "Deactivate" : "Activate"}
                   </button>
                   <button
                     onClick={() => deleteUser(user._id)}
-                    className="inline-flex items-center px-3 py-1 rounded bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    className="action-btn delete-btn"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <FaTrashAlt />
                   </button>
                 </td>
               </tr>

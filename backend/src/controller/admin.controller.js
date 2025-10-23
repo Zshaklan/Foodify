@@ -5,10 +5,30 @@ import mealModel from "../model/meals.model.js";
 // Get all users
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await userModel
-      .find()
-      .select("-password")
-      .sort({ createdAt: -1 });
+    const users = await userModel.aggregate([
+      {
+        $lookup: {
+          from: "orders",
+          localField: "_id",
+          foreignField: "user",
+          as: "orders",
+        },
+      },
+      {
+        $addFields: {
+          totalOrders: { $size: "$orders" },
+        },
+      },
+      {
+        $project: {
+          password: 0,
+          orders: 0,
+        },
+      },
+      {
+        $sort: { createdAt: -1 },
+      },
+    ]);
 
     return res.status(200).json({
       message: "Users retrieved successfully",
@@ -32,7 +52,7 @@ export const getAllOrders = async (req, res) => {
 
     const orders = await orderModel
       .find(filter)
-      .populate("user", "name email")
+      .populate("user", "fullName email")
       .populate("items.meal", "name price image")
       .sort({ createdAt: -1 });
 
@@ -169,6 +189,32 @@ export const toggleUserStatus = async (req, res) => {
     console.error("Error toggling user status:", error.message);
     return res.status(500).json({
       message: "Failed to toggle user status",
+      error: error.message,
+    });
+  }
+};
+
+// Delete user
+export const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedUser = await userModel.findByIdAndDelete(id);
+
+    if (!deletedUser) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "User deleted successfully",
+      user: deletedUser,
+    });
+  } catch (error) {
+    console.error("Error deleting user:", error.message);
+    return res.status(500).json({
+      message: "Failed to delete user",
       error: error.message,
     });
   }

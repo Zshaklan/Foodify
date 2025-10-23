@@ -1,0 +1,76 @@
+.recent_orders {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px #ffc404;
+}
+
+.recent_orders .heading {
+  margin-bottom: 15px;
+}
+
+.recent_orders h2 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.order_table {
+  overflow-x: auto;
+}
+
+.order_table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order_table th,
+.order_table td {
+  padding: 10px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.order_table th {
+  background-color: #f7f7f7;
+  font-weight: 600;
+}
+
+.order_table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.status-icon {
+  width: 16px; /* set icon size */
+  height: 16px;
+  vertical-align: middle;
+  margin-right: 6px;
+  color: #333; /* default icon color */
+}
+
+/* Optional: color code icons based on status */
+td span {
+  display: flex;
+  align-items: center;
+}
+
+td span.pending .status-icon {
+  color: orange;
+}
+
+td span.processing .status-icon {
+  color: #007bff; /* blue */
+}
+
+td span.shipped .status-icon {
+  color: #17a2b8; /* cyan */
+}
+
+td span.delivered .status-icon {
+  color: green;
+}
+
+td span.cancelled .status-icon {
+  color: red;
+}

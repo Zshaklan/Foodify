@@ -3,8 +3,6 @@ import jwt from "jsonwebtoken";
 import userModel from "../model/user.model.js";
 import { getImageKitInstance } from "../utils/imagekit.js";
 
-const isProduction = process.env.NODE_ENV === "production";
-
 // GET current user
 export const getCurrentUser = async (req, res) => {
   try {
@@ -61,7 +59,7 @@ export const registerUser = async (req, res) => {
       .status(201)
       .cookie("token", token, {
         httpOnly: true,
-        secure: isProduction ? true : false,
+        secure: true, // for local - false
         sameSite: "none",
         maxAge: 24 * 60 * 60 * 1000,
         path: "/",
@@ -113,7 +111,7 @@ export const loginUser = async (req, res) => {
       .status(200)
       .cookie("token", token, {
         httpOnly: true,
-        secure: isProduction ? true : false,
+        secure: true, // for local - false
         sameSite: "none",
         maxAge: 24 * 60 * 60 * 1000,
         path: "/",
